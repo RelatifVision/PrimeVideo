@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django CRUD Application</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+</head>
+<body>
+    {# bootstrap para añadir botones al navegador #}
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark"> {# navegador bg negro #}
+        <div class="container">
+          <a class="navbar-brand" href="/">PrimeVideo</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto">
+                
+                {# Botones creados como base para redirecionar a los distintos links #}
+                <li class="nav-item">
+                    <a href="/" class="nav-link">Home</a>
+                </li>
+                {% if user.is_authenticated %} {#Si el usuario esta autentificado muestrame logout #}
+                <li class="nav-item">
+                    <a href="{% url 'tasks' %}" class="nav-link">Tasks Pending</a> {# Mejor nombrar con el nombre ya que las url puede que se cambie el nombre se mantendrá #}
+                </li>
+                <li class="nav-item">
+                    <a href="/tasks_completed" class="nav-link">Tasks Completed</a> {# Este metodo puede fallar si modificamos la ruta por eso mejor como el anterior y los siguientes #}
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'create_task' %}" class="nav-link">Create Tasks</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'logout'%}" class="nav-link">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a href="{% url 'signup'%}" class="nav-link">Signup</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'signin' %}" class="nav-link">Signin</a>
+                </li>
+                {% endif %}
+            </ul>
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+
+      
+    
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>
