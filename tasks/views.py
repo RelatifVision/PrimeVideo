@@ -33,10 +33,11 @@ def signup(request):
                 login(request, user) # así se registran en las cookies
                 return redirect(tasks)
             except IntegrityError: #Muestra error en específico
-                return render(request, 'signup.html', {
-                    'form': UserCreationForm,
-                    'error': 'Username already exists'
-                })
+                if User.objects.filter(username=request.POST['username']).exists():
+                    return render(request, 'signup.html', {
+                        'form': UserCreationForm,
+                        'error': 'Username already exists'
+    })
         return render(request, 'signup.html', {
             'form': UserCreationForm,
             'error': 'Pasword do not match'
