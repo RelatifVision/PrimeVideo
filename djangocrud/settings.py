@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tasks'
+    'tasks',  # Make sure this line is present
 ]
 
 MIDDLEWARE = [
@@ -63,18 +63,20 @@ ROOT_URLCONF = 'djangocrud.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],  # Asegúrate de que esta línea esté configurada correctamente
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',  # Añadir este
+                'django.contrib.auth.context_processors.auth',  # Asegúrate de que este esté presente
+                'django.contrib.messages.context_processors.messages',  # Asegúrate de que este esté presente
+                # Otros context processors que puedas tener...
             ],
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'djangocrud.wsgi.application'
 
@@ -84,15 +86,10 @@ WSGI_APPLICATION = 'djangocrud.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'djangocrud_2br0',
-        'USER': 'djangocrud_2br0_user',
-        'PASSWORD': 'BsBGgTLTLbOw6c8rHPYmXvZ4FaAq4ICV',
-        'HOST': 'dpg-cs58dc88fa8c73ai0790-a',  # O la dirección del servidor si no es local
-        'PORT': '5432',  # El puerto por defecto de PostgreSQL
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -128,7 +125,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 if not DEBUG:   # El dice a Django que copie staticss a staticfiles
     # En tu dirección de aplicacon en Render

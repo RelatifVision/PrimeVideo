@@ -1,0 +1,51 @@
+body {
+    background: rgb(80, 79, 79);
+    color: white;
+}
+
+.navbar {
+    background: rgb(53, 52, 52);
+    padding: 5px 0;
+}
+
+/* Elimina o comenta estas reglas que están interfiriendo con Bootstrap */
+/*
+.navbar ul {
+    display: flex;
+    justify-content: space-between;
+}
+
+.navbar ul li {
+    list-style: none;
+}
+*/
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.navbar ul li a:hover {
+    color: #404040;
+}
+
+/* El resto de tus estilos permanecen igual */
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px 10px;
+}
+
+.card {
+    background: #202020;
+    color: white;
+    padding: 10px;
+    margin-bottom: 2px;
+}
+
+.input {
+    background: rgb(136, 179, 236);
+    padding: 10px;
+    text-align: center;
+}
+

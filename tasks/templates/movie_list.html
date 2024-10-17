@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Movies</h1>
+<a href="{% url 'create_movie' %}">Add New Movie</a>
+<ul>
+{% for movie in movies %}
+    <li>
+        {{ movie.title }} - {{ movie.duration }} minutes
+        {% if movie.favorite %}<span>(Favorite)</span>{% endif %}
+    </li>
+{% empty %}
+    <li>No movies added yet.</li>
+{% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h1 class="text-center py-5">Watched Content</h1>
+            <ul class="list-group">
+                {% for content in watched %}
+                <li class="list-group-item">
+                    <h3>{{ content.title }}</h3>
+                    <p>Type: {{ content.get_content_type_display }}</p>
+                    <p>{{ content.description|truncatewords:30 }}</p>
+                    <a href="{% url 'content_detail' content.id %}" class="btn btn-primary">View Details</a>
+                </li>
+                {% empty %}
+                <li class="list-group-item">No watched content yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,16 +1,25 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
-
-# Crear una tabla ORM django con SQL en-->  Task/forms.py (Utilizar)
-class Tasks(models.Model):
-    title = models.CharField(max_length=100)
+class BaseContent(models.Model):
+    title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
-    created = models.DateTimeField(auto_now_add=True) # añade fecha y hora automaticamente al crear tarea
-    datecompleted = models.DateTimeField(null=True, blank=True) # Campo vacio inicialmente, permite admin no rellenarlo
-    important = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    
+    favorite = models.BooleanField(default=False)
+
+    class Meta:
+        abstract = True
+
+class Movie(BaseContent):
+    duration = models.IntegerField(help_text="Duration in minutes")
+
     def __str__(self):
-        return self.title + '- by ' + self.user.username # mostrar titulo de la tarea y su 'username' de 'user'
+        return f"Movie: {self.title}"
+
+class Series(BaseContent):
+    seasons = models.IntegerField()
+    episodes = models.IntegerField()
+
+    def __str__(self):
+        return f"Series: {self.title}"

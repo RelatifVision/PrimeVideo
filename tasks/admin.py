@@ -1,8 +1,5 @@
 from django.contrib import admin
-from .models import Tasks
+from .models import Movie, Series
 
-class TaskAdmin(admin.ModelAdmin): # mostrar fecha creaccion
-    readonly_fields = ("created", )
-    
-# Register your models here.
-admin.site.register(Tasks, TaskAdmin)
+admin.site.register(Movie)
+admin.site.register(Series)

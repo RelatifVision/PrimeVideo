@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>TV Series</h1>
+<a href="{% url 'create_series' %}">Add New Series</a>
+<ul>
+{% for series in series %}
+    <li>
+        {{ series.title }} - {{ series.seasons }} seasons, {{ series.episodes }} episodes
+        {% if series.favorite %}<span>(Favorite)</span>{% endif %}
+    </li>
+{% empty %}
+    <li>No series added yet.</li>
+{% endfor %}
+</ul>
+{% endblock %}
