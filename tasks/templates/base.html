@@ -28,7 +28,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'home' %}">Home</a>
                     </li>
@@ -42,9 +42,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'favorites' %}">Favorites</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'signout' %}">Logout</a>
-                        </li>
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'signin' %}">Sign in</a>
@@ -54,10 +51,65 @@
                         </li>
                     {% endif %}
                 </ul>
+                <!-- Formulario de búsqueda -->
+                <form class="d-flex me-2" role="search">
+                    <input class="form-control me-2 bg-dark text-light border-light" type="search" placeholder="" aria-label="Search">
+                    <button class="btn btn-outline-light" type="submit">
+                        <i class="bi bi-search"></i> <!-- Icono de lupa -->
+                    </button>
+                </form>
+                <!-- Icono de 3x3 puntitos con menú de Series y Películas -->
+                <div class="dropdown me-2">
+    <button class="btn btn-dark" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-grid-3x3-gap-fill" style="font-size: 1.5rem;"></i>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton2">
+        <li><h6 class="dropdown-header">Series</h6></li>
+        <li><a class="dropdown-item" href="#">Terror</a></li>
+        <li><a class="dropdown-item" href="#">Comedia</a></li>
+        <li><a class="dropdown-item" href="#">Thriller</a></li>
+        <li><a class="dropdown-item" href="#">Aventuras</a></li>
+        <li><a class="dropdown-item" href="#">Acción</a></li>
+        <li><a class="dropdown-item" href="#">Animación</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><h6 class="dropdown-header">Películas</h6></li>
+        <li><a class="dropdown-item" href="#">Terror</a></li>
+        <li><a class="dropdown-item" href="#">Comedia</a></li>
+        <li><a class="dropdown-item" href="#">Thriller</a></li>
+        <li><a class="dropdown-item" href="#">Aventuras</a></li>
+        <li><a class="dropdown-item" href="#">Acción</a></li>
+        <li><a class="dropdown-item" href="#">Animación</a></li>
+    </ul>
+</div>
+                <!-- Icono de marcador para favoritos/vistos -->
+                <div class="dropdown me-2">
+                    <button class="btn btn-dark" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-bookmark-star" style="font-size: 1.5rem;"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="#">Favoritos</a></li>
+                        <li><a class="dropdown-item" href="#">Vistos recientemente</a></li>
+                        <li><a class="dropdown-item" href="#">Mi lista</a></li>
+                    </ul>
+                </div>
+                <!-- Icono de perfil -->
+                <div class="dropdown">
+                    <button class="btn btn-dark" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton3">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="{% url 'signout' %}">Logout</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
-
+    
+    <!-- Asegúrate de incluir Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
     {% block content %}
     {% endblock %}
 
