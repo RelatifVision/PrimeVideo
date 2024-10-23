@@ -5,30 +5,98 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PrimeVideo</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
-        .navbar-nav {
-            align-items: center;
+        body {
+            background: rgb(80, 79, 79);
+            color: white;
+        }
+        .navbar {
+            background-color: transparent !important;
+            padding: 5px 15px;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: white !important;
+            padding-left: 0;
         }
         .navbar-nav .nav-link {
-            padding-top: 0;
-            padding-bottom: 0;
+            color: white !important;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s;
+            border-radius: 20px;
+        }
+        .navbar-nav .nav-link:hover {
+            background-color: white;
+            color: black !important;
+        }
+        .dropdown-toggle::after {
+            display: none;
+        }
+        .btn-icon {
+            background-color: transparent !important;
+            border: none;
+            color: white;
+            transition: all 0.3s;
+            padding: 0;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 5px;
+        }
+        .btn-icon:hover {
+            background-color: white !important;
+        }
+        .btn-icon:hover i {
+            color: black !important;
+        }
+        .form-control {
+            background-color: transparent !important;
+            border: 1px solid white;
+            color: white;
+        }
+        .form-control:focus {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            color: white;
+            border-color: white;
         }
         .full-height-image {
-            height: calc(100vh - 56px); /* Ajusta 56px según la altura de tu navbar */
+            height: 100vh;
             object-fit: cover;
             width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .navbar-right {
+            margin-left: auto; 
+            display: flex; 
+            align-items: center; 
+        }
+        .btn-signup {
+            background-color: blue; /* Color de fondo azul */
+            color: white; /* Texto blanco */
+            border-radius: 20px; /* Bordes redondeados */
+            padding-left: 15px; /* Espaciado interno */
+            padding-right: 15px; /* Espaciado interno */
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-        <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-transparent">
+        <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'home' %}">PrimeVideo</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
+                <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'home' %}">Home</a>
                     </li>
@@ -39,80 +107,92 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'series_list' %}">TV Series</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'favorites' %}">Favorites</a>
-                        </li>
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'signin' %}">Sign in</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'signup' %}">Sign up</a>
-                        </li>
                     {% endif %}
                 </ul>
-                <!-- Formulario de búsqueda -->
-                <form class="d-flex me-2" role="search">
-                    <input class="form-control me-2 bg-dark text-light border-light" type="search" placeholder="" aria-label="Search">
-                    <button class="btn btn-outline-light" type="submit">
-                        <i class="bi bi-search"></i> <!-- Icono de lupa -->
-                    </button>
-                </form>
-                <!-- Icono de 3x3 puntitos con menú de Series y Películas -->
-                <div class="dropdown me-2">
-    <button class="btn btn-dark" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi bi-grid-3x3-gap-fill" style="font-size: 1.5rem;"></i>
-    </button>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton2">
-        <li><h6 class="dropdown-header">Series</h6></li>
-        <li><a class="dropdown-item" href="#">Terror</a></li>
-        <li><a class="dropdown-item" href="#">Comedia</a></li>
-        <li><a class="dropdown-item" href="#">Thriller</a></li>
-        <li><a class="dropdown-item" href="#">Aventuras</a></li>
-        <li><a class="dropdown-item" href="#">Acción</a></li>
-        <li><a class="dropdown-item" href="#">Animación</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><h6 class="dropdown-header">Películas</h6></li>
-        <li><a class="dropdown-item" href="#">Terror</a></li>
-        <li><a class="dropdown-item" href="#">Comedia</a></li>
-        <li><a class="dropdown-item" href="#">Thriller</a></li>
-        <li><a class="dropdown-item" href="#">Aventuras</a></li>
-        <li><a class="dropdown-item" href="#">Acción</a></li>
-        <li><a class="dropdown-item" href="#">Animación</a></li>
-    </ul>
-</div>
-                <!-- Icono de marcador para favoritos/vistos -->
-                <div class="dropdown me-2">
-                    <button class="btn btn-dark" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-bookmark-star" style="font-size: 1.5rem;"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="#">Favoritos</a></li>
-                        <li><a class="dropdown-item" href="#">Vistos recientemente</a></li>
-                        <li><a class="dropdown-item" href="#">Mi lista</a></li>
-                    </ul>
-                </div>
-                <!-- Icono de perfil -->
-                <div class="dropdown">
-                    <button class="btn btn-dark" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton3">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
-                        <li><a class="dropdown-item" href="{% url 'signout' %}">Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+
+                <div class="navbar-right">
+                    <!-- Formulario de búsqueda -->
+                    <form class="d-flex me-2" role="search">
+                        <input class="form-control me-2" type="search" placeholder="" aria-label="Search">
+                        <button class="btn-icon" type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </form>
+
+                    <!-- Icono de 3x3 puntitos con menú de Géneros -->
+                    <div class="dropdown">
+                        <button class="btn-icon" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-grid-3x3-gap-fill"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton2">
+                            <li><h6 class="dropdown-header">Genres</h6></li>
+                            <li><a class="dropdown-item" href="#">Comedy</a></li>
+                            <li><a class="dropdown-item" href="#">Sport</a></li>
+                            <li><a class="dropdown-item" href="#">Adventure</a></li>
+                            <li><a class="dropdown-item" href="#">Kids</a></li>
+                            <li><a class="dropdown-item" href="#">Drama</a></li>
+                            <li><a class="dropdown-item" href="#">Romantic</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Icono de marcador para favoritos/vistos -->
+                    <div class="dropdown">
+                        <button class="btn-icon" type='button' id='dropdownMenuButton1' data-bs-toggle='dropdown' aria-expanded='false'>
+                            <i class='bi bi-bookmark-star'></i> 
+                        </button> 
+                        <ul class='dropdown-menu dropdown-menu-end' aria-labelledby='dropdownMenuButton1'>
+                            <li><h6 class='dropdown-header'>Favorites</h6></li>
+                            <li><a class='dropdown-item' href="{% url 'favorites' %}">Favoritos</a></li> <!-- Enlace a Favoritos -->
+                            <li><hr class='dropdown-divider'></li> 
+                            <li><h6 class='dropdown-header'>Recently Watched</h6></li> 
+                            <!-- Aquí puedes añadir más opciones si es necesario -->
+                        </ul> 
+                    </div>
+
+                    <!-- Icono de perfil -->
+                    <div class="dropdown">
+                        <button class='btn-icon' type='button' id='dropdownMenuButton3' data-bs-toggle='dropdown' aria-expanded='false'>
+                            <i class='bi bi-person-circle'></i> 
+                        </button> 
+                        <!-- Menú desplegable del perfil -->
+                        <ul class='dropdown-menu dropdown-menu-end' aria-labelledby='dropdownMenuButton3'>
+                            {% if user.is_authenticated %}
+                                {% for profile in user.profiles.all %}
+                                    <li><a class='dropdown-item' href='{% url "switch_profile" profile.id %}'>{{ profile.name }}</a></li> 
+                                {% endfor %}
+                                <li><hr class='dropdown-divider'></li>
+                                <!-- Settings and Logout options -->
+                                <li><a class='dropdown-item' href='{% url "settings" %}'>Settings</a></li> 
+                                <!-- Logout with redirection to home -->
+                                <li><a class='dropdown-item' href='{% url "signout" %}' onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li> 
+                                <!-- Hidden form for logout -->
+                                <form id='logout-form' action='{% url "signout" %}' method='POST' style='display:none;'> 
+                                    {% csrf_token %} 
+                                </form> 
+                            {% else %}
+                                <li><a class='dropdown-item' href='{% url "signin" %}'>Sign In</a></li> 
+                                <!-- Sign Up button on the right -->
+                                <div style='margin-left:auto;'>
+                                    <a href='{% url "signup" %}' class='btn btn-signup'>Sign Up</a> 
+                                </div> 
+                            {% endif %}
+                        </ul> 
+                    </div> 
+                </div> <!-- Fin de navbar-right -->
+                
+            </div> <!-- Fin de collapse -->
+        </div> <!-- Fin de container-fluid -->
     </nav>
-    
-    <!-- Asegúrate de incluir Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    
+
     {% block content %}
     {% endblock %}
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Scripts de Bootstrap -->
+    <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js'></script>
+
 </body>
 </html>

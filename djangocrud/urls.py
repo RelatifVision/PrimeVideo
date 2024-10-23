@@ -11,6 +11,8 @@ urlpatterns = [
     path('signin/', views.signin, name='signin'),
     path('signout/', views.signout, name='signout'),
     path('logout/', views.signout, name='logout'),
+    path('settings/', views.settings_view, name='settings'),
+
     
     # Movie URLs
     path('movies/', views.movie_list, name='movie_list'),

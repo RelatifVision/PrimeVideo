@@ -151,3 +151,7 @@ def favorites(request):
         'favorite_movies': favorite_movies,
         'favorite_series': favorite_series
     })
+    
+def settings_view(request):
+    # Your settings view logic here
+    return render(request, 'settings.html')  # Assuming you have a settings.html template
