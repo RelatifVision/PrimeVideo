@@ -105,8 +105,19 @@ def create_series(request):
 
 @login_required
 def movie_detail(request, movie_id):
-    movie = get_object_or_404(Movie, pk=movie_id, user=request.user)
-    return render(request, 'movie_detail.html', {'movie': movie})
+    movie = get_object_or_404(Movie, id=movie_id, user=request.user)
+    
+    # Verificar si el usuario ha visto la película
+    watched = movie.watchedcontent_set.filter(user=request.user).exists() if request.user.is_authenticated else False
+    
+    # Verificar si la película está en favoritos
+    favorite = movie.favoritecontent_set.filter(user=request.user).exists() if request.user.is_authenticated else False
+    
+    return render(request, 'movie_detail.html', {
+        'movie': movie,
+        'watched': watched,
+        'favorite': favorite
+    })
 
 @login_required
 def series_detail(request, series_id):

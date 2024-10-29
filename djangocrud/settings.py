@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'primevideo',  # Make sure this line is present
+    'primevideo',  
+    #'django_select2',
 ]
 
 MIDDLEWARE = [

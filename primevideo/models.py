@@ -1,13 +1,21 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class Genre(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
 class BaseContent(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     favorite = models.BooleanField(default=False)
-    image = models.ImageField(upload_to='content_images/', blank=True, null=True)
+    image = models.ImageField(upload_to='imagecontent/', blank=True, null=True)
+    director = models.CharField(max_length=100, default='Unknown Director')
+    genres = models.ManyToManyField(Genre, related_name='%(class)s_contents')
 
     class Meta:
         abstract = True
@@ -21,6 +29,9 @@ class Movie(BaseContent):
 class Series(BaseContent):
     seasons = models.IntegerField()
     episodes = models.IntegerField()
+
+    class Meta:
+        verbose_name_plural = "TV Shows"  # Configura el plural correctamente
 
     def __str__(self):
         return f"Series: {self.title}"
