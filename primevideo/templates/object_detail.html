@@ -1,0 +1,16 @@
+<h1>{{ object.name }}</h1>
+<p>{{ object.description }}</p>
+{% if object.image %}
+<img src="{{ object.image.url }}" alt="{{ object.name }}">
+{% endif %}
+{% if object.movie %}
+<p>Related to movie: <a href="{% url 'movie_detail' object.movie.id %}">{{ object.movie.title }}</a></p>
+{% endif %}
+{% if object.series %}
+<p>Related to series: <a href="{% url 'series_detail' object.series.id %}">{{ object.series.title }}</a></p>
+{% endif %}
+<a href="{% url 'update_object' object.id %}">Edit</a>
+<form method="POST" action="{% url 'delete_object' object.id %}">
+    {% csrf_token %}
+    <button type="submit">Delete</button>
+</form>

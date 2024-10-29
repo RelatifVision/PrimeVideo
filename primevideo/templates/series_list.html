@@ -1,0 +1,22 @@
+<!-- templates/series_list.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>My Series</h1>
+
+    {% for series in series %}
+        <div style="margin-bottom: 20px;">
+            <h2>{{ series.title }}</h2>
+            
+            {% if series.image %}
+                <img src="{{ series.image.url }}" alt="{{ series.title }}" style="width:150px;height:auto;">
+            {% else %}
+                <p>No image available</p>
+            {% endif %}
+            
+            <p>{{ series.description }}</p>
+            <p>Seasons: {{ series.seasons }}, Episodes: {{ series.episodes }}</p>
+            <a href="{% url 'series_detail' series.id %}">View Details</a>
+        </div>
+    {% endfor %}
+{% endblock %}

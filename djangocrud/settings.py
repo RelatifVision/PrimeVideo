@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tasks',  # Make sure this line is present
+    'primevideo',  # Make sure this line is present
 ]
 
 MIDDLEWARE = [
@@ -57,7 +57,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
-
 ROOT_URLCONF = 'djangocrud.urls'
 
 TEMPLATES = [
@@ -71,11 +70,18 @@ TEMPLATES = [
                 'django.template.context_processors.request',  # Añadir este
                 'django.contrib.auth.context_processors.auth',  # Asegúrate de que este esté presente
                 'django.contrib.messages.context_processors.messages',  # Asegúrate de que este esté presente
-                # Otros context processors que puedas tener...
             ],
         },
     },
 ]
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 WSGI_APPLICATION = 'djangocrud.wsgi.application'
@@ -127,14 +133,6 @@ USE_TZ = True
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
 
 if not DEBUG:   # El dice a Django que copie staticss a staticfiles
     # En tu dirección de aplicacon en Render

@@ -1,0 +1,107 @@
+body {
+    background: rgb(80, 79, 79); /* Color de fondo por defecto */
+    color: white;
+}
+
+.home-page {
+    background: rgb(80, 79, 79) url('static/primebg.png') no-repeat center center fixed; /* Imagen de fondo solo para home.html */
+    background-size: cover; /* Asegúrate de que la imagen cubra todo el fondo */
+}
+.navbar {
+    background-color: transparent !important;
+    color: white;
+    padding: 5px 0;
+}
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Estilo para los enlaces de navegación */
+.navbar-nav .nav-link {
+    color: white !important;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s;
+    border-radius: 20px;
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: white;
+    color: black !important;
+}
+
+/* Estilo para los botones desplegables y la lupa */
+.btn-dark, .btn-outline-light {
+    background-color: transparent !important;
+    border: none;
+    color: white;
+    transition: all 0.3s;
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-dark:hover, .btn-outline-light:hover {
+    background-color: white !important;
+    color: black !important;
+}
+
+.btn-dark:hover i, .btn-outline-light:hover i {
+    color: black !important;
+}
+
+.form-control {
+    background-color: transparent !important;
+    border: none;
+    color: white;
+}
+
+.form-control:focus {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: white;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px 10px;
+}
+
+.card {
+    background: #202020;
+    color: white;
+    padding: 10px;
+    margin-bottom: 2px;
+}
+
+.input {
+    background: rgb(136, 179, 236);
+    padding: 10px;
+    text-align: center;
+}
+
+.subscribe-button {
+    display: flex;
+    align-items: center;
+}
+
+.btn-signup {
+    background-color: #499aeb; /* Color de fondo azul */
+    color: white; /* Texto blanco */
+    border-radius: 20px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno para que el botón tenga más área clicable */
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+.btn-signup:hover {
+    background-color: #81b9f1; /* Un azul más oscuro al hacer hover */
+    color: white;
+}

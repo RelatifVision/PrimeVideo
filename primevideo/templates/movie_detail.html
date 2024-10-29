@@ -1,0 +1,19 @@
+<!-- templates/movie_detail.html -->
+<div>
+    <h1>{{ movie.title }}</h1>
+    <p>{{ movie.description }}</p>
+
+    {% if request.user.is_authenticated %}
+        {% if movie.watchedcontent_set.filter(user=request.user).exists %}
+            <span>👁️ Visto</span>
+        {% else %}
+            <a href="{% url 'mark_as_watched_movie' movie_id=movie.id %}">👁️ Marcar como Visto</a>
+        {% endif %}
+
+        {% if movie.favoritecontent_set.filter(user=request.user).exists %}
+            <span>⭐ Favorito</span>
+        {% else %}
+            <a href="{% url 'mark_as_favorite_movie' movie_id=movie.id %}">⭐ Marcar como Favorito</a>
+        {% endif %}
+    {% endif %}
+</div>
