@@ -1,22 +1,39 @@
-<!-- templates/series_list.html -->
+<!-- series_list.html -->
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>My Series</h1>
-
-    {% for series in series %}
-        <div style="margin-bottom: 20px;">
-            <h2>{{ series.title }}</h2>
-            
-            {% if series.image %}
-                <img src="{{ series.image.url }}" alt="{{ series.title }}" style="width:150px;height:auto;">
-            {% else %}
-                <p>No image available</p>
-            {% endif %}
-            
-            <p>{{ series.description }}</p>
-            <p>Seasons: {{ series.seasons }}, Episodes: {{ series.episodes }}</p>
-            <a href="{% url 'series_detail' series.id %}">View Details</a>
-        </div>
-    {% endfor %}
+    <div class="container">
+        <h1>My Series</h1>
+        
+        {% if series %}
+            <div class="row">
+                {% for series in series %}
+                    <div class="col-md-3 mb-4">
+                        <div class="series-thumbnail">
+                            <a href="{% url 'series_detail' series.id %}">
+                                {% if series.image %}
+                                    <img src="{{ series.image.url }}" alt="{{ series.title }}" class="img-fluid">
+                                {% else %}
+                                    <p>No image available</p>
+                                {% endif %}
+                                <div class="series-title">
+                                    <h2>{{ series.title }}</h2>
+                                </div>
+                            </a>
+                            <div class="series-icons">
+                                {% if series.watched %}
+                                    <span>👁️</span>
+                                {% endif %}
+                                {% if series.favorite %}
+                                    <span>⭐</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No series found.</p>
+        {% endif %}
+    </div>
 {% endblock %}

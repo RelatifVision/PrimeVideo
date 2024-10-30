@@ -1,24 +1,29 @@
-<!-- templates/movie_detail.html -->
-<div>
-    <h1>{{ movie.title }}</h1>
-    <p><strong>Descripción:</strong> {{ movie.description }}</p>
-    <p><strong>Director:</strong> {{ movie.director }}</p>
-    <p><strong>Géneros:</strong> {{ movie.genres.all|join:", " }}</p>
-    <p><strong>Duración:</strong> {{ movie.duration }} minutos</p>
+{% extends 'base.html' %}
 
-    {% if request.user.is_authenticated %}
-        <div>
-            {% if watched %}
-                <span>👁️ Visto</span>
-            {% else %}
-                <a href="{% url 'mark_as_watched_movie' movie_id=movie.id %}">👁️ Marcar como Visto</a>
-            {% endif %}
+{% block content %}
+<div class="background-container movie-detail" style="background: rgb(0, 0, 0) url('{{ movie.image.url }}') no-repeat center center fixed; background-size: cover; min-height: 100vh;">
+    <div class="movie-detail-content container" style="padding-right: 15px; color: white;">
+        <h1>{{ movie.title }}</h1>
+        <p><strong>Descripción:</strong> {{ movie.description }}</p>
+        <p><strong>Director:</strong> {{ movie.director }}</p>
+        <p><strong>Géneros:</strong> {{ movie.genres.all|join:", " }}</p>
+        <p><strong>Duración:</strong> {{ movie.duration }} minutos</p>
 
-            {% if favorite %}
-                <span>⭐ Favorito</span>
-            {% else %}
-                <a href="{% url 'mark_as_favorite_movie' movie_id=movie.id %}">⭐ Marcar como Favorito</a>
-            {% endif %}
-        </div>
-    {% endif %}
+        {% if request.user.is_authenticated %}
+            <div class="movie-status">
+                {% if movie.watched %}
+                    <span>👁️ Visto</span>
+                {% else %}
+                    <a href="{% url 'mark_as_watched_movie' movie_id=movie.id %}">👁️ Marcar como Visto</a>
+                {% endif %}
+
+                {% if movie.favorite %}
+                    <span>⭐ Favorito</span>
+                {% else %}
+                    <a href="{% url 'mark_as_favorite_movie' movie_id=movie.id %}">⭐ Marcar como Favorito</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
 </div>
+{% endblock %}

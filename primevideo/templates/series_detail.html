@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="background-container series-detail" style="background: rgb(0, 0, 0) url('{{ series.image.url }}') no-repeat center center fixed; background-size: cover; min-height: 100vh;">
+    <div class="series-detail-content container" style="padding-right: 15px; color: white;">
+        <h1>{{ series.title }}</h1>
+        <p><strong>Descripción:</strong> {{ series.description }}</p>
+        <p><strong>Director:</strong> {{ series.director }}</p>
+        <p><strong>Géneros:</strong> {{ series.genres.all|join:", " }}</p>
+        <p><strong>Temporadas:</strong> {{ series.seasons }}</p>
+        <p><strong>Episodios:</strong> {{ series.episodes }}</p>
+
+        {% if request.user.is_authenticated %}
+            <div class="series-status">
+                {% if series.watched %}
+                    <span>👁️ Visto</span>
+                {% else %}
+                    <a href="{% url 'mark_as_watched_series' series_id=series.id %}">👁️ Marcar como Visto</a>
+                {% endif %}
+
+                {% if series.favorite %}
+                    <span>⭐ Favorito</span>
+                {% else %}
+                    <a href="{% url 'mark_as_favorite_series' series_id=series.id %}">⭐ Marcar como Favorito</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

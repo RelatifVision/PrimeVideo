@@ -1,23 +1,31 @@
+<!-- templates/watched.html -->
 {% extends 'base.html' %}
 
 {% block content %}
-<main class="container">
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <h1 class="text-center py-5">Watched Content</h1>
-            <ul class="list-group">
-                {% for content in watched %}
-                <li class="list-group-item">
-                    <h3>{{ content.title }}</h3>
-                    <p>Type: {{ content.get_content_type_display }}</p>
-                    <p>{{ content.description|truncatewords:30 }}</p>
-                    <a href="{% url 'content_detail' content.id %}" class="btn btn-primary">View Details</a>
-                </li>
-                {% empty %}
-                <li class="list-group-item">No watched content yet.</li>
+    <div class="container">
+        <h1>Películas Vistas</h1>
+        
+        {% if watched_movies %}
+            <div class="row">
+                {% for movie in watched_movies %}
+                    <div class="col-md-3 mb-4">
+                        <div class="movie-thumbnail">
+                            <a href="{% url 'movie_detail' movie.id %}">
+                                {% if movie.image %}
+                                    <img src="{{ movie.image.url }}" alt="{{ movie.title }}" class="img-fluid">
+                                {% else %}
+                                    <p>No image available</p>
+                                {% endif %}
+                                <div class="movie-title">
+                                    <h2>{{ movie.title }}</h2>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
                 {% endfor %}
-            </ul>
-        </div>
+            </div>
+        {% else %}
+            <p>No watched movies found.</p>
+        {% endif %}
     </div>
-</main>
 {% endblock %}

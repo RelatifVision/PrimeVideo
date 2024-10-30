@@ -11,11 +11,18 @@ urlpatterns = [
     path('movies/<int:movie_id>/', views.movie_detail, name='movie_detail'),
     path('movies/<int:movie_id>/update/', views.update_movie, name='update_movie'),
     path('movies/<int:movie_id>/delete/', views.delete_movie, name='delete_movie'),
+    path('movies/<int:movie_id>/watched/', views.mark_as_watched_movie, name='mark_as_watched_movie'),
+    path('movies/<int:movie_id>/favorite/', views.mark_as_favorite_movie, name='mark_as_favorite_movie'),
+    
     path('series/', views.series_list, name='series_list'),
     path('series/create/', views.create_series, name='create_series'),
     path('series/<int:series_id>/', views.series_detail, name='series_detail'),
     path('series/<int:series_id>/update/', views.update_series, name='update_series'),
     path('series/<int:series_id>/delete/', views.delete_series, name='delete_series'),
+    path('series/<int:series_id>/watched/', views.mark_as_watched_series, name='mark_as_watched_series'),
+    path('series/<int:series_id>/favorite/', views.mark_as_favorite_series, name='mark_as_favorite_series'),
+    
     path('favorites/', views.favorites, name='favorites'),
+    path('watched/', views.watched, name='watched'),
     path('settings/', views.settings_view, name='settings'),
 ]

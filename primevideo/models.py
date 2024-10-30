@@ -22,6 +22,7 @@ class BaseContent(models.Model):
 
 class Movie(BaseContent):
     duration = models.IntegerField(help_text="Duration in minutes")
+    watched = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Movie: {self.title}"
@@ -35,3 +36,11 @@ class Series(BaseContent):
 
     def __str__(self):
         return f"Series: {self.title}"
+
+class WatchedContent(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    watched = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user.username} watched {self.movie.title}"

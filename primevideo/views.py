@@ -4,7 +4,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
-from .models import Movie, Series
+from .models import Movie, Series, WatchedContent
 from .forms import MovieForm, SeriesForm
 from django.contrib import messages
 
@@ -105,18 +105,13 @@ def create_series(request):
 
 @login_required
 def movie_detail(request, movie_id):
-    movie = get_object_or_404(Movie, id=movie_id, user=request.user)
-    
-    # Verificar si el usuario ha visto la película
-    watched = movie.watchedcontent_set.filter(user=request.user).exists() if request.user.is_authenticated else False
-    
-    # Verificar si la película está en favoritos
-    favorite = movie.favoritecontent_set.filter(user=request.user).exists() if request.user.is_authenticated else False
-    
+    movie = get_object_or_404(Movie, pk=movie_id)
+    watched = WatchedContent.objects.filter(user=request.user, movie=movie).exists() if request.user.is_authenticated else False
+    favorite = movie.favorite if request.user.is_authenticated else False
     return render(request, 'movie_detail.html', {
         'movie': movie,
         'watched': watched,
-        'favorite': favorite
+        'favorite': favorite,
     })
 
 @login_required
@@ -165,12 +160,49 @@ def delete_series(request, series_id):
     return render(request, 'delete_content.html', {'content': series})
 
 @login_required
+def mark_as_watched_movie(request, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    movie.watched = True
+    movie.save()
+    return redirect('movie_detail', movie_id=movie.id)
+
+@login_required
+def mark_as_favorite_movie(request, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    movie.favorite = True
+    movie.save()
+    return redirect('movie_detail', movie_id=movie.id)
+
+@login_required
+def mark_as_watched_series(request, series_id):
+    series = get_object_or_404(Series, pk=series_id)
+    series.watched = True
+    series.save()
+    return redirect('series_detail', series_id=series.id)
+
+@login_required
+def mark_as_favorite_series(request, series_id):
+    series = get_object_or_404(Series, pk=series_id)
+    series.favorite = True
+    series.save()
+    return redirect('series_detail', series_id=series.id)
+
+@login_required
 def favorites(request):
     favorite_movies = Movie.objects.filter(user=request.user, favorite=True)
     favorite_series = Series.objects.filter(user=request.user, favorite=True)
     return render(request, 'favorites.html', {
         'favorite_movies': favorite_movies,
         'favorite_series': favorite_series
+    })
+
+@login_required
+def watched(request):
+    watched_movies = Movie.objects.filter(user=request.user, watched=True)
+    watched_series = Series.objects.filter(user=request.user, watched=True)
+    return render(request, 'watched.html', {
+        'watched_movies': watched_movies,
+        'watched_series': watched_series
     })
 
 def settings_view(request):
