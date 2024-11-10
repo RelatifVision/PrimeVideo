@@ -1,29 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="background-container movie-detail" style="background: rgb(0, 0, 0) url('{{ movie.image.url }}') no-repeat center center fixed; background-size: cover; min-height: 100vh;">
-    <div class="movie-detail-content container" style="padding-right: 15px; color: white;">
-        <h1>{{ movie.title }}</h1>
-        <p><strong>Descripción:</strong> {{ movie.description }}</p>
-        <p><strong>Director:</strong> {{ movie.director }}</p>
-        <p><strong>Géneros:</strong> {{ movie.genres.all|join:", " }}</p>
-        <p><strong>Duración:</strong> {{ movie.duration }} minutos</p>
+<style>
+    body {
+        background: url('{{ movie.image.url }}') no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+    .movie-detail-content {
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        max-width: 800px;
+        margin: 0;  /* Eliminar margen automático */
+        margin-left: 0;  /* Establecer margen izquierdo en 0 */
+        border-radius: 10px;
+    }
+</style>
+<div class="movie-detail-content">
+    <h1>{{ movie.title }}</h1>
+    <p><strong>Descripción:</strong> {{ movie.description }}</p>
+    <p><strong>Director:</strong> {{ movie.director }}</p>
+    <p><strong>Géneros:</strong> {{ movie.genres.all|join:", " }}</p>
+    <p><strong>Duración:</strong> {{ movie.duration }} minutos</p>
 
-        {% if request.user.is_authenticated %}
-            <div class="movie-status">
-                {% if movie.watched %}
-                    <span>👁️ Visto</span>
-                {% else %}
-                    <a href="{% url 'mark_as_watched_movie' movie_id=movie.id %}">👁️ Marcar como Visto</a>
-                {% endif %}
+    {% if request.user.is_authenticated %}
+        <div class="movie-status">
+            {% if movie.watched %}
+                <a href="{% url 'mark_as_watched_movie' movie_id=movie.id %}">👁️ Desmarcar como Visto</a>
+            {% else %}
+                <a href="{% url 'mark_as_watched_movie' movie_id=movie.id %}">👁️ Marcar como Visto</a>
+            {% endif %}
 
-                {% if movie.favorite %}
-                    <span>⭐ Favorito</span>
-                {% else %}
-                    <a href="{% url 'mark_as_favorite_movie' movie_id=movie.id %}">⭐ Marcar como Favorito</a>
-                {% endif %}
-            </div>
-        {% endif %}
-    </div>
+            {% if movie.favorite %}
+                <a href="{% url 'mark_as_favorite_movie' movie_id=movie.id %}">⭐ Desmarcar como Favorito</a>
+            {% else %}
+                <a href="{% url 'mark_as_favorite_movie' movie_id=movie.id %}">⭐ Marcar como Favorito</a>
+            {% endif %}
+        </div>
+    {% endif %}
 </div>
 {% endblock %}

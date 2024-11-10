@@ -1,11 +1,10 @@
-<!-- templates/favorites.html -->
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container">
-        <h1>Películas Favoritas</h1>
-        
-        {% if favorite_movies %}
+<main class="container">
+    <div class="row">
+        <div class="col-md-12 mt-5">
+            <h1 class="text-left">Mis Favoritos</h1>
             <div class="row">
                 {% for movie in favorite_movies %}
                     <div class="col-md-3 mb-4">
@@ -23,9 +22,24 @@
                         </div>
                     </div>
                 {% endfor %}
+                {% for series in favorite_series %}
+                    <div class="col-md-3 mb-4">
+                        <div class="series-thumbnail">
+                            <a href="{% url 'series_detail' series.id %}">
+                                {% if series.image %}
+                                    <img src="{{ series.image.url }}" alt="{{ series.title }}" class="img-fluid">
+                                {% else %}
+                                    <p>No image available</p>
+                                {% endif %}
+                                <div class="series-title">
+                                    <h2>{{ series.title }}</h2>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
-        {% else %}
-            <p>No favorite movies found.</p>
-        {% endif %}
+        </div>
     </div>
+</main>
 {% endblock %}

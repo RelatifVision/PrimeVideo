@@ -13,13 +13,13 @@
         {% if request.user.is_authenticated %}
             <div class="series-status">
                 {% if series.watched %}
-                    <span>👁️ Visto</span>
+                    <a href="{% url 'mark_as_watched_series' series_id=series.id %}">👁️ Desmarcar como Visto</a>
                 {% else %}
                     <a href="{% url 'mark_as_watched_series' series_id=series.id %}">👁️ Marcar como Visto</a>
                 {% endif %}
 
                 {% if series.favorite %}
-                    <span>⭐ Favorito</span>
+                    <a href="{% url 'mark_as_favorite_series' series_id=series.id %}">⭐ Desmarcar como Favorito</a>
                 {% else %}
                     <a href="{% url 'mark_as_favorite_series' series_id=series.id %}">⭐ Marcar como Favorito</a>
                 {% endif %}

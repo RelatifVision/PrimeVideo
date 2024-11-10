@@ -1,16 +1,15 @@
-<!-- templates/delete_content.html -->
 {% extends 'base.html' %}
 
 {% block content %}
 <main class="container">
     <div class="row">
-        <div class="col-md-4 offset-md-4 mt-5">
-            <h1 class="text-center">Delete Content</h1>
-            <p>Are you sure you want to delete "{{ content.title }}"?</p>
+        <div class="col-md-6 offset-md-3 mt-5">
+            <h1 class="text-center">Delete User</h1>
+            <p>Are you sure you want to delete "{{ user.username }}"?</p>
             <form method="POST">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger">Confirm Delete</button>
-                <a href="{% url 'content_detail' content.id %}" class="btn btn-secondary">Cancel</a>
+                <a href="{% url 'manage_users' %}" class="btn btn-secondary">Cancel</a>
             </form>
         </div>
     </div>

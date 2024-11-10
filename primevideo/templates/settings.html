@@ -1,1 +1,15 @@
-<h1>Settings World</h1>
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3 mt-5">
+            <h1 class="text-center">Settings</h1>
+            <div class="list-group">
+                <a href="{% url 'update_profile' %}" class="list-group-item list-group-item-action">Update Profile</a>
+                <a href="{% url 'change_password_user' %}" class="list-group-item list-group-item-action">Change Password</a>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

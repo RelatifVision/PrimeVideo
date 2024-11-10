@@ -25,4 +25,11 @@ urlpatterns = [
     path('favorites/', views.favorites, name='favorites'),
     path('watched/', views.watched, name='watched'),
     path('settings/', views.settings_view, name='settings'),
+    path('manage_users/', views.manage_users, name='manage_users'),
+    path('users/create/', views.create_user, name='create_user'),
+    path('users/<int:user_id>/update/', views.update_user, name='update_user'),
+    path('users/<int:user_id>/delete/', views.delete_user, name='delete_user'),
+    path('users/<int:user_id>/change_password_admin/', views.change_password_admin, name='change_password_admin'),
+    path('change_password_user/', views.change_password_user, name='change_password_user'),
+    path('update_profile/', views.update_profile, name='update_profile'),
 ]

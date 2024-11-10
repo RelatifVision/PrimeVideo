@@ -30,6 +30,7 @@ class Movie(BaseContent):
 class Series(BaseContent):
     seasons = models.IntegerField()
     episodes = models.IntegerField()
+    watched = models.BooleanField(default=False)  # Añadir el campo watched
 
     class Meta:
         verbose_name_plural = "TV Shows"  # Configura el plural correctamente

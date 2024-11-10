@@ -99,115 +99,121 @@
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
 <body>
-    <div class="background-container">
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="{% url 'home' %}">PrimeVideo</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'home' %}">PrimeVideo</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">Home</a>
+                    </li>
+                    {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'home' %}">Home</a>
+                            <a class="nav-link" href="{% url 'movie_list' %}">Movies</a>
                         </li>
-                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'series_list' %}">TV Series</a>
+                        </li>
+                        {% if user.is_staff %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'movie_list' %}">Movies</a>
+                                <a class="nav-link" href="{% url 'create_movie' %}">Add Movie</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'series_list' %}">TV Series</a>
+                                <a class="nav-link" href="{% url 'create_series' %}">Add Series</a>
                             </li>
-                        {% else %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'signin' %}">Sign in</a>
+                                <a class="nav-link" href="{% url 'manage_users' %}">Manage Users</a>
                             </li>
                         {% endif %}
-                    </ul>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'signin' %}">Sign in</a>
+                        </li>
+                    {% endif %}
+                </ul>
 
-                    <div class="navbar-right">
-                        <!-- Formulario de búsqueda -->
-                        <form class="d-flex me-2" role="search">
-                            <input class="form-control me-2" type="search" placeholder="" aria-label="Search">
-                            <button class="btn-icon" type="submit">
-                                <i class="bi bi-search"></i>
-                            </button>
-                        </form>
+                <div class="navbar-right">
+                    <!-- Formulario de búsqueda -->
+                    <form class="d-flex me-2" role="search">
+                        <input class="form-control me-2" type="search" placeholder="" aria-label="Search">
+                        <button class="btn-icon" type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </form>
 
-                        <!-- Icono de 3x3 puntitos con menú de Géneros -->
-                        <div class="dropdown">
-                            <button class="btn-icon" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-grid-3x3-gap-fill"></i>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton2">
-                                <li><h6 class="dropdown-header">Genres</h6></li>
-                                <li><a class="dropdown-item" href="#">Comedy</a></li>
-                                <li><a class="dropdown-item" href="#">Sport</a></li>
-                                <li><a class="dropdown-item" href="#">Adventure</a></li>
-                                <li><a class="dropdown-item" href="#">Kids</a></li>
-                                <li><a class="dropdown-item" href="#">Drama</a></li>
-                                <li><a class="dropdown-item" href="#">Romantic</a></li>
-                            </ul>
+                    <!-- Icono de 3x3 puntitos con menú de Géneros -->
+                    <div class="dropdown">
+                        <button class="btn-icon" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-grid-3x3-gap-fill"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton2">
+                            <li><h6 class="dropdown-header">Genres</h6></li>
+                            <li><a class="dropdown-item" href="#">Comedy</a></li>
+                            <li><a class="dropdown-item" href="#">Sport</a></li>
+                            <li><a class="dropdown-item" href="#">Adventure</a></li>
+                            <li><a class="dropdown-item" href="#">Kids</a></li>
+                            <li><a class="dropdown-item" href="#">Drama</a></li>
+                            <li><a class="dropdown-item" href="#">Romantic</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Icono de marcador para favoritos/vistos -->
+                    <div class="dropdown">
+                        <button class="btn-icon" type='button' id='dropdownMenuButton1' data-bs-toggle='dropdown' aria-expanded='false'>
+                            <i class='bi bi-bookmark-star'></i> 
+                        </button> 
+                        <ul class='dropdown-menu dropdown-menu-end' aria-labelledby='dropdownMenuButton1'>
+                            <li><h6 class='dropdown-header'>Marcadores</h6></li>
+                            <li><hr class='dropdown-divider'></li> <!-- Línea divisoria -->
+                            <li><a class='dropdown-item' href="{% url 'favorites' %}">Favoritos</a></li> <!-- Enlace a Favoritos -->
+                            <li><a class='dropdown-item' href="{% url 'watched' %}">Vistos</a></li> <!-- Enlace a vistos -->
+                        </ul> 
+                    </div>
+
+                    <!-- Icono de perfil -->
+                    <div class="dropdown">
+                        <button class='btn-icon' type='button' id='dropdownMenuButton3' data-bs-toggle='dropdown' aria-expanded='false'>
+                            <i class='bi bi-person-circle'></i> 
+                        </button> 
+                        <!-- Menú desplegable del perfil -->
+                        <ul class='dropdown-menu dropdown-menu-end' aria-labelledby='dropdownMenuButton3'>
+                            {% if user.is_authenticated %}
+                                {% for profile in user.profiles.all %}
+                                    <li><a class='dropdown-item' href='{% url "switch_profile" profile.id %}'>{{ profile.name }}</a></li> 
+                                {% endfor %}
+                                <li><hr class='dropdown-divider'></li>
+                                <!-- Settings and Logout options -->
+                                <li><a class='dropdown-item' href='{% url "settings" %}'>Settings</a></li> 
+                                <!-- Logout with redirection to home -->
+                                <li><a class='dropdown-item' href='{% url "signout" %}' onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li> 
+                                <!-- Hidden form for logout -->
+                                <form id='logout-form' action='{% url "signout" %}' method='POST' style='display:none;'> 
+                                    {% csrf_token %} 
+                                </form> 
+                            {% else %}
+                                <li><a class='dropdown-item' href='{% url "signin" %}'>Sign In</a></li> 
+                            {% endif %}
+                        </ul> 
+                    </div> 
+
+                    <!-- Botón de Subscribe to Prime -->
+                    {% if not user.is_authenticated %}
+                        <div class="subscribe-button">
+                            <a href="{% url 'signup' %}" class="btn btn-signup">Subscribe to Prime</a>
                         </div>
+                    {% endif %}
+                </div> <!-- Fin de navbar-right -->
+                
+            </div> <!-- Fin de collapse -->
+        </div> <!-- Fin de container-fluid -->
+    </nav>
 
-                        <!-- Icono de marcador para favoritos/vistos -->
-                        <div class="dropdown">
-                            <button class="btn-icon" type='button' id='dropdownMenuButton1' data-bs-toggle='dropdown' aria-expanded='false'>
-                                <i class='bi bi-bookmark-star'></i> 
-                            </button> 
-                            <ul class='dropdown-menu dropdown-menu-end' aria-labelledby='dropdownMenuButton1'>
-                                <li><h6 class='dropdown-header'>Favorites</h6></li>
-                                <li><a class='dropdown-item' href="{% url 'favorites' %}">Favoritos</a></li> <!-- Enlace a Favoritos -->
-                                <li><hr class='dropdown-divider'></li> 
-                                <li><h6 class='dropdown-header'>Recently Watched</h6></li> 
-                                <!-- Aquí puedes añadir más opciones si es necesario -->
-                            </ul> 
-                        </div>
-
-                        <!-- Icono de perfil -->
-                        <div class="dropdown">
-                            <button class='btn-icon' type='button' id='dropdownMenuButton3' data-bs-toggle='dropdown' aria-expanded='false'>
-                                <i class='bi bi-person-circle'></i> 
-                            </button> 
-                            <!-- Menú desplegable del perfil -->
-                            <ul class='dropdown-menu dropdown-menu-end' aria-labelledby='dropdownMenuButton3'>
-                                {% if user.is_authenticated %}
-                                    {% for profile in user.profiles.all %}
-                                        <li><a class='dropdown-item' href='{% url "switch_profile" profile.id %}'>{{ profile.name }}</a></li> 
-                                    {% endfor %}
-                                    <li><hr class='dropdown-divider'></li>
-                                    <!-- Settings and Logout options -->
-                                    <li><a class='dropdown-item' href='{% url "settings" %}'>Settings</a></li> 
-                                    <!-- Logout with redirection to home -->
-                                    <li><a class='dropdown-item' href='{% url "signout" %}' onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li> 
-                                    <!-- Hidden form for logout -->
-                                    <form id='logout-form' action='{% url "signout" %}' method='POST' style='display:none;'> 
-                                        {% csrf_token %} 
-                                    </form> 
-                                {% else %}
-                                    <li><a class='dropdown-item' href='{% url "signin" %}'>Sign In</a></li> 
-                                {% endif %}
-                            </ul> 
-                        </div> 
-
-                        <!-- Botón de Subscribe to Prime -->
-                        {% if not user.is_authenticated %}
-                            <div class="subscribe-button">
-                                <a href="{% url 'signup' %}" class="btn btn-signup">Subscribe to Prime</a>
-                            </div>
-                        {% endif %}
-                    </div> <!-- Fin de navbar-right -->
-                    
-                </div> <!-- Fin de collapse -->
-            </div> <!-- Fin de container-fluid -->
-        </nav>
-
-        <div class="content-wrapper">
-            {% block content %}
-            {% endblock %}
-        </div>
-    </div>
+    {% block content %}
+    {% endblock %}
 
     <!-- Scripts de Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

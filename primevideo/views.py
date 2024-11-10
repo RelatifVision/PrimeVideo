@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm, SetPasswordForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from .models import Movie, Series, WatchedContent
-from .forms import MovieForm, SeriesForm
+from .forms import MovieForm, SeriesForm, UserProfileForm, AdminProfileForm
 from django.contrib import messages
 
 def home(request):
@@ -60,13 +60,100 @@ def signout(request):
 
 @login_required
 def movie_list(request):
-    movies = Movie.objects.filter(user=request.user)
-    return render(request, 'movie_list.html', {'movies': movies})
+    movies = Movie.objects.all()  # Obtener todas las películas
+    watched_movies = Movie.objects.filter(user=request.user, watched=True).values_list('id', flat=True)
+    favorite_movies = Movie.objects.filter(user=request.user, favorite=True).values_list('id', flat=True)
+    return render(request, 'movie_list.html', {
+        'movies': movies,
+        'watched_movies': watched_movies,
+        'favorite_movies': favorite_movies
+    })
 
 @login_required
 def series_list(request):
-    series = Series.objects.filter(user=request.user)
-    return render(request, 'series_list.html', {'series': series})
+    series = Series.objects.all()  # Obtener todas las series
+    watched_series = Series.objects.filter(user=request.user, watched=True).values_list('id', flat=True)
+    favorite_series = Series.objects.filter(user=request.user, favorite=True).values_list('id', flat=True)
+    return render(request, 'series_list.html', {
+        'series': series,
+        'watched_series': watched_series,
+        'favorite_series': favorite_series
+    })
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def manage_users(request):
+    users = User.objects.all()
+    return render(request, 'manage_users.html', {'users': users})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def create_user(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('manage_users')
+    else:
+        form = UserCreationForm()
+    return render(request, 'create_user.html', {'form': form})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def update_user(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    if request.method == 'POST':
+        form = AdminProfileForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('manage_users')
+    else:
+        form = AdminProfileForm(instance=user)
+    return render(request, 'update_user.html', {'form': form, 'user': user})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def delete_user(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    if request.method == 'POST':
+        user.delete()
+        return redirect('manage_users')
+    return render(request, 'delete_user.html', {'user': user})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def change_password_admin(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    if request.method == 'POST':
+        form = SetPasswordForm(user, request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('manage_users')
+    else:
+        form = SetPasswordForm(user)
+    return render(request, 'change_password_admin.html', {'form': form, 'user': user})
+
+@login_required
+def change_password_user(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('settings')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'change_password_user.html', {'form': form})
+
+@login_required
+def update_profile(request):
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('settings')
+    else:
+        form = UserProfileForm(instance=request.user)
+    return render(request, 'update_profile.html', {'form': form})
 
 @login_required
 def create_movie(request):
@@ -106,7 +193,7 @@ def create_series(request):
 @login_required
 def movie_detail(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
-    watched = WatchedContent.objects.filter(user=request.user, movie=movie).exists() if request.user.is_authenticated else False
+    watched = movie.watched if request.user.is_authenticated else False
     favorite = movie.favorite if request.user.is_authenticated else False
     return render(request, 'movie_detail.html', {
         'movie': movie,
@@ -117,7 +204,13 @@ def movie_detail(request, movie_id):
 @login_required
 def series_detail(request, series_id):
     series = get_object_or_404(Series, pk=series_id, user=request.user)
-    return render(request, 'series_detail.html', {'series': series})
+    watched = series.watched if request.user.is_authenticated else False
+    favorite = series.favorite if request.user.is_authenticated else False
+    return render(request, 'series_detail.html', {
+        'series': series,
+        'watched': watched,
+        'favorite': favorite,
+    })
 
 @login_required
 def update_movie(request, movie_id):
@@ -162,35 +255,35 @@ def delete_series(request, series_id):
 @login_required
 def mark_as_watched_movie(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
-    movie.watched = True
+    movie.watched = not movie.watched  # Alternar el estado de visto
     movie.save()
     return redirect('movie_detail', movie_id=movie.id)
 
 @login_required
 def mark_as_favorite_movie(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
-    movie.favorite = True
+    movie.favorite = not movie.favorite  # Alternar el estado de favorito
     movie.save()
     return redirect('movie_detail', movie_id=movie.id)
 
 @login_required
 def mark_as_watched_series(request, series_id):
     series = get_object_or_404(Series, pk=series_id)
-    series.watched = True
+    series.watched = not series.watched  # Alternar el estado de visto
     series.save()
     return redirect('series_detail', series_id=series.id)
 
 @login_required
 def mark_as_favorite_series(request, series_id):
     series = get_object_or_404(Series, pk=series_id)
-    series.favorite = True
+    series.favorite = not series.favorite  # Alternar el estado de favorito
     series.save()
     return redirect('series_detail', series_id=series.id)
 
 @login_required
 def favorites(request):
-    favorite_movies = Movie.objects.filter(user=request.user, favorite=True)
-    favorite_series = Series.objects.filter(user=request.user, favorite=True)
+    favorite_movies = Movie.objects.filter(user=request.user, favorite=True)  # Obtener todas las películas favoritas del usuario
+    favorite_series = Series.objects.filter(user=request.user, favorite=True)  # Obtener todas las series favoritas del usuario
     return render(request, 'favorites.html', {
         'favorite_movies': favorite_movies,
         'favorite_series': favorite_series
@@ -198,8 +291,8 @@ def favorites(request):
 
 @login_required
 def watched(request):
-    watched_movies = Movie.objects.filter(user=request.user, watched=True)
-    watched_series = Series.objects.filter(user=request.user, watched=True)
+    watched_movies = Movie.objects.filter(user=request.user, watched=True)  # Obtener todas las películas vistas del usuario
+    watched_series = Series.objects.filter(user=request.user, watched=True)  # Obtener todas las series vistas del usuario
     return render(request, 'watched.html', {
         'watched_movies': watched_movies,
         'watched_series': watched_series
