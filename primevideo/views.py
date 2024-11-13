@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, SetPasswordForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.db.models import Q
@@ -13,7 +13,6 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import io
 import base64
-
 
 # _____Funciones Home y Registro_____
 
@@ -421,7 +420,6 @@ def user_content_graph(request):
     graphic = graphic.decode('utf-8')
 
     return render(request, 'user_content_graph.html', {'graphic': graphic})
-
 
 # Función de grafico de contenido visto por administrador
 @login_required

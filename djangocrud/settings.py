@@ -149,3 +149,8 @@ LOGIN_URL = '/signin' # nos sirve reenviarnos al login en caso de no haberse log
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Asegúrate de que estas configuraciones estén habilitadas en producción
+SECURE_SSL_REDIRECT = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True

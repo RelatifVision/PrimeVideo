@@ -26,8 +26,8 @@ urlpatterns = [
     path('genre/<int:genre_id>/', views.genre_detail, name='genre_detail'),  # Nueva ruta para el detalle del género
     path('search/', views.search, name='search'), # nueva ruta para el buscador
     
-    path('user_content_graph/', views.user_content_graph, name='user_content_graph'), # nueva ruta para el gráfico de contenido del usuario
-    path('admin_content_graph/', views.admin_content_graph, name='admin_content_graph'), # nueva ruta para el gráfico de contenido del administrador
+    path('user_content_graph/', views.user_content_graph, name='user_content_graph'),
+    path('admin_content_graph/', views.admin_content_graph, name='admin_content_graph'),
     
     path('favorites/', views.favorites, name='favorites'),
     path('watched/', views.watched, name='watched'),
