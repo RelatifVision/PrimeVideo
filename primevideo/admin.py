@@ -4,8 +4,9 @@ from .forms import MovieForm, SeriesForm
 
 class MovieAdmin(admin.ModelAdmin):
     form = MovieForm
-    list_display = ('title', 'duration', 'created', 'favorite', 'director', 'get_genres')
+    list_display = ('title', 'duration', 'created', 'director', 'get_genres')
     search_fields = ('title',)
+    fields = ('title', 'description', 'image', 'director', 'genres', 'duration')
 
     def get_genres(self, obj):
         return ", ".join([genre.name for genre in obj.genres.all()])
@@ -13,8 +14,9 @@ class MovieAdmin(admin.ModelAdmin):
 
 class SeriesAdmin(admin.ModelAdmin):
     form = SeriesForm
-    list_display = ('title', 'seasons', 'episodes', 'created', 'favorite', 'director', 'get_genres')
+    list_display = ('title', 'seasons', 'episodes', 'duration', 'created', 'director', 'get_genres')
     search_fields = ('title',)
+    fields = ('title', 'description', 'image', 'director', 'genres', 'seasons', 'episodes', 'duration')
 
     def get_genres(self, obj):
         return ", ".join([genre.name for genre in obj.genres.all()])

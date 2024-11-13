@@ -138,8 +138,8 @@
 
                 <div class="navbar-right">
                     <!-- Formulario de búsqueda -->
-                    <form class="d-flex me-2" role="search">
-                        <input class="form-control me-2" type="search" placeholder="" aria-label="Search">
+                    <form class="d-flex me-2" action="{% url 'search' %}" method="get" role="search">
+                        <input class="form-control me-2" type="search" name="q" placeholder="Search by name or genre" aria-label="Search">
                         <button class="btn-icon" type="submit">
                             <i class="bi bi-search"></i>
                         </button>
@@ -152,12 +152,9 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton2">
                             <li><h6 class="dropdown-header">Genres</h6></li>
-                            <li><a class="dropdown-item" href="#">Comedy</a></li>
-                            <li><a class="dropdown-item" href="#">Sport</a></li>
-                            <li><a class="dropdown-item" href="#">Adventure</a></li>
-                            <li><a class="dropdown-item" href="#">Kids</a></li>
-                            <li><a class="dropdown-item" href="#">Drama</a></li>
-                            <li><a class="dropdown-item" href="#">Romantic</a></li>
+                            {% for genre in genres %}
+                                <li><a class="dropdown-item" href="{% url 'genre_detail' genre.id %}">{{ genre.name }}</a></li>
+                            {% endfor %}
                         </ul>
                     </div>
 

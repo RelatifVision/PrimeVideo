@@ -6,38 +6,57 @@
         <div class="col-md-12 mt-5">
             <h1 class="text-left">Vistos</h1>
             <div class="row">
-                {% for movie in watched_movies %}
-                    <div class="col-md-3 mb-4">
-                        <div class="movie-thumbnail">
-                            <a href="{% url 'movie_detail' movie.id %}">
-                                {% if movie.image %}
-                                    <img src="{{ movie.image.url }}" alt="{{ movie.title }}" class="img-fluid">
-                                {% else %}
-                                    <p>No image available</p>
-                                {% endif %}
-                                <div class="movie-title">
-                                    <h2>{{ movie.title }}</h2>
+                {% if watched_movies %}
+                    {% for movie in watched_movies %}
+                        <div class="col-md-3 mb-4">
+                            <div class="movie-thumbnail">
+                                <a href="{% url 'movie_detail' movie.id %}">
+                                    {% if movie.image %}
+                                        <img src="{{ movie.image.url }}" alt="{{ movie.title }}" class="img-fluid">
+                                    {% else %}
+                                        <p>No image available</p>
+                                    {% endif %}
+                                    <div class="movie-title">
+                                        <h2>{{ movie.title }}</h2>
+                                    </div>
+                                </a>
+                                <div class="movie-icons">
+                                    {% if movie.id in favorite_movies %}
+                                        <span>⭐</span>
+                                    {% endif %}
                                 </div>
-                            </a>
+                            </div>
                         </div>
-                    </div>
-                {% endfor %}
-                {% for series in watched_series %}
-                    <div class="col-md-3 mb-4">
-                        <div class="series-thumbnail">
-                            <a href="{% url 'series_detail' series.id %}">
-                                {% if series.image %}
-                                    <img src="{{ series.image.url }}" alt="{{ series.title }}" class="img-fluid">
-                                {% else %}
-                                    <p>No image available</p>
-                                {% endif %}
-                                <div class="series-title">
-                                    <h2>{{ series.title }}</h2>
+                    {% endfor %}
+                {% else %}
+                    <p>No watched movies found.</p>
+                {% endif %}
+                
+                {% if watched_series %}
+                    {% for series in watched_series %}
+                        <div class="col-md-3 mb-4">
+                            <div class="series-thumbnail">
+                                <a href="{% url 'series_detail' series.id %}">
+                                    {% if series.image %}
+                                        <img src="{{ series.image.url }}" alt="{{ series.title }}" class="img-fluid">
+                                    {% else %}
+                                        <p>No image available</p>
+                                    {% endif %}
+                                    <div class="series-title">
+                                        <h2>{{ series.title }}</h2>
+                                    </div>
+                                </a>
+                                <div class="series-icons">
+                                    {% if series.id in favorite_series %}
+                                        <span>⭐</span>
+                                    {% endif %}
                                 </div>
-                            </a>
+                            </div>
                         </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                {% else %}
+                    <p>No watched series found.</p>
+                {% endif %}
             </div>
         </div>
     </div>

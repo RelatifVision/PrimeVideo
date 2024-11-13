@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Search Results for "{{ query }}"</h1>
+    <h2>Movies</h2>
+    <div class="row">
+        {% for movie in movies %}
+            <div class="col-md-3 mb-4">
+                <div class="movie-thumbnail">
+                    <a href="{% url 'movie_detail' movie.id %}">
+                        {% if movie.image %}
+                            <img src="{{ movie.image.url }}" alt="{{ movie.title }}" class="img-fluid">
+                        {% else %}
+                            <p>No image available</p>
+                        {% endif %}
+                        <div class="movie-title">
+                            <h2>{{ movie.title }}</h2>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <h2>Series</h2>
+    <div class="row">
+        {% for serie in series %}
+            <div class="col-md-3 mb-4">
+                <div class="series-thumbnail">
+                    <a href="{% url 'series_detail' serie.id %}">
+                        {% if serie.image %}
+                            <img src="{{ serie.image.url }}" alt="{{ serie.title }}" class="img-fluid">
+                        {% else %}
+                            <p>No image available</p>
+                        {% endif %}
+                        <div class="series-title">
+                            <h2>{{ serie.title }}</h2>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

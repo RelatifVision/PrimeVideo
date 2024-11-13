@@ -29,13 +29,13 @@
 
     {% if request.user.is_authenticated %}
         <div class="movie-status">
-            {% if movie.watched %}
+            {% if watched %}
                 <a href="{% url 'mark_as_watched_movie' movie_id=movie.id %}">👁️ Desmarcar como Visto</a>
             {% else %}
                 <a href="{% url 'mark_as_watched_movie' movie_id=movie.id %}">👁️ Marcar como Visto</a>
             {% endif %}
 
-            {% if movie.favorite %}
+            {% if favorite %}
                 <a href="{% url 'mark_as_favorite_movie' movie_id=movie.id %}">⭐ Desmarcar como Favorito</a>
             {% else %}
                 <a href="{% url 'mark_as_favorite_movie' movie_id=movie.id %}">⭐ Marcar como Favorito</a>

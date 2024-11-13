@@ -1,11 +1,10 @@
-<!-- movie_list.html -->
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container">
-        <h1>Peliculas</h1>
-        
-        {% if movies %}
+<main class="container">
+    <div class="row">
+        <div class="col-md-12 mt-5">
+            <h1 class="text-left">Películas</h1>
             <div class="row">
                 {% for movie in movies %}
                     <div class="col-md-3 mb-4">
@@ -21,10 +20,10 @@
                                 </div>
                             </a>
                             <div class="movie-icons">
-                                {% if movie.watched %}
+                                {% if movie.id in watched_movies %}
                                     <span>👁️</span>
                                 {% endif %}
-                                {% if movie.favorite %}
+                                {% if movie.id in favorite_movies %}
                                     <span>⭐</span>
                                 {% endif %}
                             </div>
@@ -32,8 +31,7 @@
                     </div>
                 {% endfor %}
             </div>
-        {% else %}
-            <p>No movies found.</p>
-        {% endif %}
+        </div>
     </div>
+</main>
 {% endblock %}

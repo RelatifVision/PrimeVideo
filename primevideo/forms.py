@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 class MovieForm(forms.ModelForm):
     class Meta:
         model = Movie
-        fields = ['title', 'description', 'duration', 'favorite', 'image', 'director', 'genres']
+        fields = ['title', 'description', 'duration', 'image', 'director', 'genres']
         widgets = {
             'genres': forms.CheckboxSelectMultiple(),  # Esto permite seleccionar múltiples géneros
         }
@@ -14,7 +14,7 @@ class MovieForm(forms.ModelForm):
 class SeriesForm(forms.ModelForm):
     class Meta:
         model = Series
-        fields = ['title', 'description', 'seasons', 'episodes', 'favorite', 'image', 'director', 'genres']
+        fields = ['title', 'description', 'seasons', 'episodes', 'image', 'director', 'genres']
         widgets = {
             'genres': forms.CheckboxSelectMultiple(),  # Esto permite seleccionar múltiples géneros
         }
@@ -27,12 +27,4 @@ class UserForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name']
-
-class AdminProfileForm(UserChangeForm):
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'date_joined', 'last_login']
-        widgets = {
-            'password': forms.HiddenInput(),  # Ocultar el campo de contraseña
-        }
+        fields = ['first_name', 'last_name', 'email']

@@ -63,14 +63,15 @@ ROOT_URLCONF = 'djangocrud.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # Asegúrate de que esta línea esté configurada correctamente
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                'django.template.context_processors.request',  # Añadir este
-                'django.contrib.auth.context_processors.auth',  # Asegúrate de que este esté presente
-                'django.contrib.messages.context_processors.messages',  # Asegúrate de que este esté presente
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                # No añadas líneas incorrectas aquí
             ],
         },
     },

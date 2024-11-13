@@ -21,6 +21,9 @@ urlpatterns = [
     path('series/<int:series_id>/delete/', views.delete_series, name='delete_series'),
     path('series/<int:series_id>/watched/', views.mark_as_watched_series, name='mark_as_watched_series'),
     path('series/<int:series_id>/favorite/', views.mark_as_favorite_series, name='mark_as_favorite_series'),
+    path('genre_list/', views.genre_list, name='genre_list'),  # Ruta para la lista de géneros
+    path('genre/<int:genre_id>/', views.genre_detail, name='genre_detail'),  # Nueva ruta para el detalle del género
+    path('search/', views.search, name='search'), # nueva ruta para el buscador
     
     path('favorites/', views.favorites, name='favorites'),
     path('watched/', views.watched, name='watched'),
