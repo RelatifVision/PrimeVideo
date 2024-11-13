@@ -170,7 +170,6 @@
                             <li><a class='dropdown-item' href="{% url 'watched' %}">Vistos</a></li> <!-- Enlace a vistos -->
                         </ul> 
                     </div>
-
                     <!-- Icono de perfil -->
                     <div class="dropdown">
                         <button class='btn-icon' type='button' id='dropdownMenuButton3' data-bs-toggle='dropdown' aria-expanded='false'>
@@ -185,6 +184,8 @@
                                 <li><hr class='dropdown-divider'></li>
                                 <!-- Settings and Logout options -->
                                 <li><a class='dropdown-item' href='{% url "settings" %}'>Settings</a></li> 
+                                <!-- Opción de Graphics -->
+                                <li><a class='dropdown-item' href='{% if user.is_staff %}{% url "admin_content_graph" %}{% else %}{% url "user_content_graph" %}{% endif %}'>Graphics</a></li>
                                 <!-- Logout with redirection to home -->
                                 <li><a class='dropdown-item' href='{% url "signout" %}' onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li> 
                                 <!-- Hidden form for logout -->
@@ -195,7 +196,7 @@
                                 <li><a class='dropdown-item' href='{% url "signin" %}'>Sign In</a></li> 
                             {% endif %}
                         </ul> 
-                    </div> 
+                    </div>
 
                     <!-- Botón de Subscribe to Prime -->
                     {% if not user.is_authenticated %}

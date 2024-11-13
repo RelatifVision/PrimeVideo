@@ -20,14 +20,14 @@
     </div>
     <h2>Series</h2>
     <div class="row">
-        {% for serie in series %}
+        {% for series in series %}
             <div class="col-md-4">
                 <div class="card mb-4">
-                    <img src="{{ serie.image.url }}" class="card-img-top" alt="{{ serie.title }}">
+                    <img src="{{ series.image.url }}" class="card-img-top" alt="{{ series.title }}">
                     <div class="card-body">
-                        <h5 class="card-title">{{ serie.title }}</h5>
-                        <p class="card-text">{{ serie.description }}</p>
-                        <a href="{% url 'series_detail' serie.id %}" class="btn btn-primary">View Series</a>
+                        <h5 class="card-title">{{ series.title }}</h5>
+                        <p class="card-text">{{ series.description }}</p>
+                        <a href="{% url 'series_detail' series.id %}" class="btn btn-primary">View Series</a>
                     </div>
                 </div>
             </div>

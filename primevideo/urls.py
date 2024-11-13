@@ -21,12 +21,17 @@ urlpatterns = [
     path('series/<int:series_id>/delete/', views.delete_series, name='delete_series'),
     path('series/<int:series_id>/watched/', views.mark_as_watched_series, name='mark_as_watched_series'),
     path('series/<int:series_id>/favorite/', views.mark_as_favorite_series, name='mark_as_favorite_series'),
+    
     path('genre_list/', views.genre_list, name='genre_list'),  # Ruta para la lista de géneros
     path('genre/<int:genre_id>/', views.genre_detail, name='genre_detail'),  # Nueva ruta para el detalle del género
     path('search/', views.search, name='search'), # nueva ruta para el buscador
     
+    path('user_content_graph/', views.user_content_graph, name='user_content_graph'), # nueva ruta para el gráfico de contenido del usuario
+    path('admin_content_graph/', views.admin_content_graph, name='admin_content_graph'), # nueva ruta para el gráfico de contenido del administrador
+    
     path('favorites/', views.favorites, name='favorites'),
     path('watched/', views.watched, name='watched'),
+    
     path('settings/', views.settings_view, name='settings'),
     path('manage_users/', views.manage_users, name='manage_users'),
     path('users/create/', views.create_user, name='create_user'),
@@ -36,3 +41,4 @@ urlpatterns = [
     path('change_password_user/', views.change_password_user, name='change_password_user'),
     path('update_profile/', views.update_profile, name='update_profile'),
 ]
+

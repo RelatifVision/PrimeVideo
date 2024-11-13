@@ -1,13 +1,19 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm, SetPasswordForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.db.models import Q
 from .models import Movie, Series, UserContentStatus, Genre
 from .forms import MovieForm, SeriesForm, UserProfileForm
 from django.contrib import messages
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+import io
+import base64
+
 
 # _____Funciones Home y Registro_____
 
@@ -359,7 +365,7 @@ def watched(request):
     })
 
 # _____Funciones Buscador_____
-# Función de buscador por nombre y género
+# Función de buscador por 
 @login_required
 def search(request):
     query = request.GET.get('q')
@@ -378,6 +384,76 @@ def search(request):
     })
 
 # _____Funciones Settings_____
+
 # Función de vista de ajustes 
 def settings_view(request):
     return render(request, 'settings.html')
+
+
+
+#_____Funciones Graficos Usuario & Administrador_____
+
+# Función de grafico de contenido visto por usuario
+@login_required
+def user_content_graph(request):
+    user = request.user
+    watched_movies = UserContentStatus.objects.filter(user=user, watched=True, movie__isnull=False).select_related('movie')
+    watched_series = UserContentStatus.objects.filter(user=user, watched=True, series__isnull=False).select_related('series')
+
+    movie_durations = [status.movie.duration for status in watched_movies]
+    series_durations = [status.series.seasons * status.series.episodes * status.series.duration for status in watched_series]
+
+    total_durations = movie_durations + series_durations
+
+    plt.figure(figsize=(10, 6))
+    plt.hist(total_durations, bins=20, color='blue', edgecolor='black')
+    plt.title('Duración de Contenido Visto')
+    plt.xlabel('Duración (minutos)')
+    plt.ylabel('Cantidad de Contenidos')
+
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    buffer.close()
+
+    graphic = base64.b64encode(image_png)
+    graphic = graphic.decode('utf-8')
+
+    return render(request, 'user_content_graph.html', {'graphic': graphic})
+
+
+# Función de grafico de contenido visto por administrador
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def admin_content_graph(request):
+    users = User.objects.all()
+    user_graphics = []
+
+    for user in users:
+        watched_movies = UserContentStatus.objects.filter(user=user, watched=True, movie__isnull=False).select_related('movie')
+        watched_series = UserContentStatus.objects.filter(user=user, watched=True, series__isnull=False).select_related('series')
+
+        movie_durations = [status.movie.duration for status in watched_movies]
+        series_durations = [status.series.seasons * status.series.episodes * status.series.duration for status in watched_series]
+
+        total_durations = movie_durations + series_durations
+
+        plt.figure(figsize=(10, 6))
+        plt.hist(total_durations, bins=20, color='blue', edgecolor='black')
+        plt.title(f'Duración de Contenido Visto por {user.username}')
+        plt.xlabel('Duración (minutos)')
+        plt.ylabel('Cantidad de Contenidos')
+
+        buffer = io.BytesIO()
+        plt.savefig(buffer, format='png')
+        buffer.seek(0)
+        image_png = buffer.getvalue()
+        buffer.close()
+
+        graphic = base64.b64encode(image_png)
+        graphic = graphic.decode('utf-8')
+
+        user_graphics.append({'username': user.username, 'graphic': graphic})
+
+    return render(request, 'admin_content_graph.html', {'user_graphics': user_graphics})

@@ -1,0 +1,14 @@
+<!-- admin_content_graph.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Gráficas de Contenido Visto (Todos los Usuarios)</h1>
+    {% for user_graphic in user_graphics %}
+        <div class="user-graphic">
+            <h2>{{ user_graphic.username }}</h2>
+            <img src="data:image/png;base64,{{ user_graphic.graphic }}" alt="Gráfica de Contenido Visto para {{ user_graphic.username }}">
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
