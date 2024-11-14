@@ -8,6 +8,7 @@
 2.  Creamos y activamos Entorno Virtual
 •	Crear Entorno Virtual
 •	python -m venv env
+
 •	Activar entorno Virtual
 •	.\env\Scripts\Activate.ps1 # PowerShell
 •	.\env\Scripts\Activate.ps1 # CMD
@@ -26,6 +27,7 @@
 5.  Migrar la Base de Datos
 •	Aplica las migraciones de la DDBB para asegurarte de que la estructura de la DDBB está actualizada.
 •	python manage.py migrate
+
 6.  Crear Superusuario (Opcional):
 •	Si necesitas acceso de administrador, crea superusuario
 •	python manage.py createsuperuser
@@ -33,6 +35,8 @@
 •	Si no, tienes estos user y pass que son admin:
 o	admin    4dM1Ni57r@D0
 o	javi95   2295
+
+
 7.  Ejecutar el Servidor de Desarrollo:
 •	Inicia el servidor de desarrollo para verificar que todo funcione correctamente.
 •	python manage.py runserver
